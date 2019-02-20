@@ -17,7 +17,6 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Set;
 
-import static android.widget.Toast.*;
 
 
 public class Conexion extends AppCompatActivity{
@@ -25,7 +24,6 @@ public class Conexion extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        TextView direction = (TextView) findViewById(R.id.Direccion);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.connexion);
         BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -61,7 +59,6 @@ public class Conexion extends AppCompatActivity{
             // Se registra el broadcast receiver
             IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
             registerReceiver(mReceiver, filter);
-            
         }
     }
 
