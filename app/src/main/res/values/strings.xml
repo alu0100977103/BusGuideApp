@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">BusGuideApp</string>
+    <string name="fundir"> Su bluetooth no es compatible</string>
+    <string name="aceptar"> Aceptar</string>
+</resources>
