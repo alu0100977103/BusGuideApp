@@ -3,4 +3,5 @@
     <string name="fundir"> Su bluetooth no es compatible</string>
     <string name="aceptar"> Aceptar</string>
     <string name="iniciar">Iniciar</string>
+    <string name="buscar">buscar</string>
 </resources>
