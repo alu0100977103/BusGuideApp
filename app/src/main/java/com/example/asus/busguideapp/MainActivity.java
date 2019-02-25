@@ -29,6 +29,9 @@ public class MainActivity extends AppCompatActivity {
             if (!mBluetoothAdapter.isEnabled()) {
                 Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                 startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+                if (!mBluetoothAdapter.isEnabled()) {
+                    finish();
+                }
             }
         }
         regist= findViewById(R.id.regist);

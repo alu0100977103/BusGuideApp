@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.INTERNET"/> <!--Linea dos nueva-->
 
     <application
         android:allowBackup="true"
@@ -22,4 +23,5 @@
             </intent-filter>
         </activity>
     </application>
+
 </manifest>
