@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="combo_lugare">
+        <item> Intercambiador Santa Cruz </item>
+        <item> Intercambiador La Laguna</item>
+    </string-array>
+</resources>

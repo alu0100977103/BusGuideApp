@@ -12,13 +12,31 @@ import android.widget.Button;
 public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_ENABLE_BT= 1;
-    private Button regist;
+    Button regist, inici;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         BluetoothAdapter mBluetoothAdapter=BluetoothAdapter.getDefaultAdapter();
+
+        regist=(Button) findViewById(R.id.regist);
+        inici=(Button) findViewById(R.id.inici);
+
+        regist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this,Signin.class));
+            }
+        });
+
+        inici.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this,Signup.class));
+            }
+        });
+
         if (mBluetoothAdapter == null) {
             AlertDialog.Builder builder= new AlertDialog.Builder(this);
             builder.setMessage(R.string.fundir);
@@ -34,17 +52,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
-        regist= findViewById(R.id.regist);
-        regist.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                Intent Register = new Intent(MainActivity.this, Signin.class);
-                startActivity(Register);
-            }
-        });
     }
 
-    public void Registrar(View view){
-        Intent miIntent=new Intent(MainActivity.this,Signin.class);
-    }
 }

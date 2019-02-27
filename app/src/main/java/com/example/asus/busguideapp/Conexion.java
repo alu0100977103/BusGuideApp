@@ -19,7 +19,6 @@ import java.util.Set;
 
 
 public class Conexion extends AppCompatActivity{
-    private String TAG = "Conexion";
     Button buscar;
     BluetoothAdapter mBluetoothAdapter;
     ListView listview;
@@ -41,7 +40,6 @@ public class Conexion extends AppCompatActivity{
         for(BluetoothDevice device: devices){
             mDeviceList.add(device.getAddress());
             listview.setAdapter(new ArrayAdapter<>(getApplication(),android.R.layout.simple_list_item_1,mDeviceList ));
-            Log.wtf(TAG, String.valueOf(device.getAddress()));
         }
     }
 
