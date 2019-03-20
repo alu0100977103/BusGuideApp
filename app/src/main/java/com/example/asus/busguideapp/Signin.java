@@ -25,6 +25,7 @@ public class Signin extends AppCompatActivity {
     private static final Object TAG = "Signin" ;
     private EditText mail, Contraseña, Repetir;
     Integer aux=0;
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

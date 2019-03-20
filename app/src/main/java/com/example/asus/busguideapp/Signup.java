@@ -38,7 +38,7 @@ public class Signup extends AppCompatActivity {
 
     public void iniciar(View view){
         String email =mail.getText().toString();
-        String pass=Contraseña.getText().toString();
+        String pass=Contraseña.getText().toString().trim();
 
         if ((TextUtils.isEmpty(email)) || (TextUtils.isEmpty(pass))){
             Toast.makeText(Signup.this, "No debe existir ningún campo vacío", Toast.LENGTH_LONG).show();

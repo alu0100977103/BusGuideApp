@@ -1,7 +1,14 @@
 package com.example.asus.busguideapp;
 
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
@@ -11,14 +18,38 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Set;
+
+import static java.sql.Types.NULL;
 
 public class Bienvenido extends AppCompatActivity implements View.OnClickListener {
 
+    private static final Object Bienvenido = 1 ;
+    private static final Object TAG = Bienvenido;
+    private static final int REQUEST_DISCOVER_BT = 1;
     Spinner combolugares;
     String aux;
     TextView paradas,numeroparadas, lugar,detectar,tiempotitulo,tiempo,eventos;
     Button buscar,cancelar;
+    private BluetoothAdapter mBluetoothAdapter;
+    private ArrayList<String> mDeviceList = new ArrayList<>();
+
+    private final BroadcastReceiver mReceiver= new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.e(String.valueOf(TAG),"mas tenso");
+            for(int i=0;i<mDeviceList.size();i++){
+                mDeviceList.set(i, null);
+            }
+            String action=intent.getAction();
+            if(BluetoothDevice.ACTION_FOUND.equals(action)){  //Acciones cuando encuentras un nuevo dispositivos
+                BluetoothDevice device =intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                mDeviceList.add(device.getAddress());
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +88,27 @@ public class Bienvenido extends AppCompatActivity implements View.OnClickListene
     public void onClick(View view){
         switch (view.getId()){
             case R.id.buscar:
+                while(mDeviceList.size()>0){
+                }
+                /* if (mBluetoothAdapter.isDiscovering()) {
+                    Log.e(String.valueOf(TAG),"Tensooooo");
+                    mBluetoothAdapter.cancelDiscovery();
+                }
+
+                mBluetoothAdapter.startDiscovery();
+                /*Intent intent=new Intent(mBluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+                startActivityForResult(intent,REQUEST_DISCOVER_BT);
+
+                IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+                registerReceiver(mReceiver,filter);*/
+                mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+                for(int i=0;i<mDeviceList.size();i++) {
+                    Log.e(String.valueOf(TAG),"Tenso");
+                    if (mDeviceList.get(i).equals("FC:23:60:ED:0B:B7")) {
+                        startActivity(new Intent(Bienvenido.this,Beacon.class));
+                    }
+                }
+
                 if(Objects.equals(aux,"Intercambiador La Laguna")){
                     numeroparadas.setText("2");
                     lugar.setText("Intercambiador La Laguna");

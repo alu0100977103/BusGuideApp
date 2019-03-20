@@ -11,7 +11,7 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final int REQUEST_ENABLE_BT= 1;
+    private static final int REQUEST_ENABLE_BT= 0;
     Button regist, inici;
 
     @Override
@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         regist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,Signin.class));
+                startActivity(new Intent(MainActivity.this,Conexion.class));
             }
         });
 
