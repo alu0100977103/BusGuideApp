@@ -12,13 +12,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class Beacon extends BroadcastReceiver {
+public class Beacon extends AppCompatActivity {
 
     @Override
-    public void onReceive(Context context, Intent intent) {
-        String action=intent.getAction();
-        if (BluetoothDevice.ACTION_FOUND.equals(action)) {
-            BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-        }
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.beacons);
     }
 }

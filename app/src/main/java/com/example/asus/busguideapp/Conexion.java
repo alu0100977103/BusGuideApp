@@ -36,7 +36,9 @@ public class Conexion extends AppCompatActivity {
             Log.i(String.valueOf(getBaseContext()), "Bluetooth");
             if (mBluetoothdevice.ACTION_FOUND.equals(action)) {
                 device = intent.getParcelableExtra(mBluetoothdevice.EXTRA_DEVICE);
-                mDeviceList.add(device.getName()+"\n" + device.getAddress());
+                if(device.getName().equals("iBKS USB")) {
+                    mDeviceList.add(device.getName()+"\n" + device.getAddress());
+                }
                 Log.i(String.valueOf(getBaseContext()), "Blue" + device);
             }
         }
@@ -72,6 +74,7 @@ public class Conexion extends AppCompatActivity {
         buscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 listview = findViewById(R.id.listview);
                 listview.setAdapter(new ArrayAdapter<>(getApplication(), android.R.layout.simple_list_item_1, mDeviceList));
             }

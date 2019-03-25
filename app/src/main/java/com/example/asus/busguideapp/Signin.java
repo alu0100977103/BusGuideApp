@@ -8,24 +8,37 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.asus.busguideapp.Objetos.FirebaseReferences;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-public class Signin extends AppCompatActivity {
+public class Signin extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     private static final Object TAG = "Signin" ;
     private EditText mail, Contraseña, Repetir;
+    private GoogleApiClient googleApiClient;
+    private SignInButton google;
+    private DatabaseReference myRef;
     Integer aux=0;
-    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +48,64 @@ public class Signin extends AppCompatActivity {
         mail = (EditText) findViewById(R.id.mail);
         Contraseña = (EditText) findViewById(R.id.Contraseña);
         Repetir = (EditText) findViewById(R.id.Repetir);
+
+        /*Aqui
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        myRef = database.getReference(FirebaseReferences.reference);
+        ValueEventListener valueEventListener= new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                int valor = dataSnapshot.getValue(Integer.class);
+                Log.i("DATOS",valor + "");
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e("ERROR", databaseError.getMessage());
+            }
+        };
+        myRef.addListenerForSingleValueEvent(valueEventListener);
+        //hasta aqui*/
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
+
+        googleApiClient = new GoogleApiClient.Builder(this).enableAutoManage(this,this).addApi(Auth.GOOGLE_SIGN_IN_API,gso).build();
+
+        google = (SignInButton) findViewById(R.id.google);
+        google.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
+                startActivityForResult(intent,777);
+            }
+        });
+
     }
+
+    @Override
+    protected  void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==777){
+            GoogleSignInResult result=Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            handleSignInResult(result);
+        }
+    }
+
+    protected void handleSignInResult(GoogleSignInResult result){
+        if(result.isSuccess()){
+            goMainScreen();
+        }else{
+            Toast.makeText(this, "No es posible entrar con ese correo", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void goMainScreen(){
+        Intent intent = new Intent(this,Bienvenido.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent); 
+    }
+
+
 
     public void registrar(View view){
         String email =mail.getText().toString();
@@ -63,6 +133,7 @@ public class Signin extends AppCompatActivity {
             }
         }
         registrarUsuario(email,pass);
+        //myRef.push().setValue(email);
     }
 
     private void registrarUsuario(String email,String pass){
@@ -81,5 +152,10 @@ public class Signin extends AppCompatActivity {
             Toast.makeText(Signin.this, "Usuario registrado", Toast.LENGTH_LONG).show();
             startActivity(new Intent(Signin.this,Bienvenido.class));
         }
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
     }
 }

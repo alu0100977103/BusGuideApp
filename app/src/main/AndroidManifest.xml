@@ -19,6 +19,8 @@
         <activity android:name=".Conexion"/>
         <activity android:name=".Signup"/>
         <activity android:name=".Bienvenido"/>
+        <activity android:name=".Beacon"/>
+        <activity android:name=".Setting"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

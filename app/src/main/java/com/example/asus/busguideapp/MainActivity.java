@@ -12,7 +12,7 @@ import android.widget.Button;
 public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_ENABLE_BT= 0;
-    Button regist, inici;
+    Button regist, inici, buscar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,11 +22,12 @@ public class MainActivity extends AppCompatActivity {
 
         regist=(Button) findViewById(R.id.regist);
         inici=(Button) findViewById(R.id.inici);
+        buscar=(Button) findViewById(R.id.buscar);
 
         regist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this,Conexion.class));
+                startActivity(new Intent(MainActivity.this,Signin.class));
             }
         });
 
@@ -34,6 +35,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this,Signup.class));
+            }
+        });
+
+        buscar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this,Conexion.class));
             }
         });
 

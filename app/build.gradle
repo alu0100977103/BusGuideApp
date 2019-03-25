@@ -30,11 +30,12 @@ dependencies {
     implementation 'com.android.support:recyclerview-v7:28.0.0'
     implementation 'com.google.firebase:firebase-auth:16.0.1'
     implementation 'com.google.firebase:firebase-core:16.0.3'
+    implementation 'com.google.firebase:firebase-database:9.0.0'
     implementation 'com.android.support:design:28.0.0'
     //Esto es lo que da error si quito
     //":15.0.0" funciona pero debo volver a añadir las dependencias, y si quito la línea tambien.
     implementation 'com.android.support:design:28.0.0'
-    implementation 'com.google.android.gms:play-services-auth:9.8.0'
+    implementation 'com.google.android.gms:play-services-auth:15.0.0' //añadido
 }
 
 apply plugin: 'com.google.gms.google-services'

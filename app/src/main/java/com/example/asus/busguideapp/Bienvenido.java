@@ -15,6 +15,8 @@ import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -33,29 +35,39 @@ public class Bienvenido extends AppCompatActivity implements View.OnClickListene
     String aux;
     TextView paradas,numeroparadas, lugar,detectar,tiempotitulo,tiempo,eventos;
     Button buscar,cancelar;
-    private BluetoothAdapter mBluetoothAdapter;
-    private ArrayList<String> mDeviceList = new ArrayList<>();
+    ImageView imagen;
+    private String mDeviceList=null;
+    BluetoothAdapter mBluetoothAdapter;
+    BluetoothDevice mBluetoothdevice;
 
-    private final BroadcastReceiver mReceiver= new BroadcastReceiver() {
+    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        BluetoothDevice device;
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.e(String.valueOf(TAG),"mas tenso");
-            for(int i=0;i<mDeviceList.size();i++){
-                mDeviceList.set(i, null);
-            }
             String action=intent.getAction();
-            if(BluetoothDevice.ACTION_FOUND.equals(action)){  //Acciones cuando encuentras un nuevo dispositivos
-                BluetoothDevice device =intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                mDeviceList.add(device.getAddress());
+            Log.i(String.valueOf(getBaseContext()), "Bluetooth");
+            if (mBluetoothdevice.ACTION_FOUND.equals(action)) {
+                device = intent.getParcelableExtra(mBluetoothdevice.EXTRA_DEVICE);
+                if(device.getName().equals("iBKS USB")) {
+                    mDeviceList=device.getAddress();
+                }
+                Log.i(String.valueOf(getBaseContext()), "Blue" + device);
             }
         }
     };
+
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(mReceiver);
+        super.onDestroy();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.welcome);
 
+        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         buscar= findViewById(R.id.buscar);
         combolugares= findViewById(R.id.spinnerlugares);
         paradas = findViewById(R.id.paradas);
@@ -66,6 +78,7 @@ public class Bienvenido extends AppCompatActivity implements View.OnClickListene
         tiempotitulo=findViewById(R.id.tiempotitulo);
         tiempo=findViewById(R.id.tiempo);
         eventos = findViewById(R.id.eventos);
+        imagen = findViewById(R.id.imagen);
 
         ArrayAdapter<CharSequence> adapter= ArrayAdapter.createFromResource(this,R.array.combo_lugare,android.R.layout.simple_spinner_item);
         combolugares.setAdapter(adapter);
@@ -81,34 +94,17 @@ public class Bienvenido extends AppCompatActivity implements View.OnClickListene
             }
         });
 
+        mBluetoothAdapter.startDiscovery();
+        registerReceiver(mReceiver, new IntentFilter(BluetoothDevice.ACTION_FOUND));
+
         buscar.setOnClickListener(this);
         cancelar.setOnClickListener(this);
+        imagen.setOnClickListener(this);
     }
 
     public void onClick(View view){
         switch (view.getId()){
             case R.id.buscar:
-                while(mDeviceList.size()>0){
-                }
-                /* if (mBluetoothAdapter.isDiscovering()) {
-                    Log.e(String.valueOf(TAG),"Tensooooo");
-                    mBluetoothAdapter.cancelDiscovery();
-                }
-
-                mBluetoothAdapter.startDiscovery();
-                /*Intent intent=new Intent(mBluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
-                startActivityForResult(intent,REQUEST_DISCOVER_BT);
-
-                IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-                registerReceiver(mReceiver,filter);*/
-                mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-                for(int i=0;i<mDeviceList.size();i++) {
-                    Log.e(String.valueOf(TAG),"Tenso");
-                    if (mDeviceList.get(i).equals("FC:23:60:ED:0B:B7")) {
-                        startActivity(new Intent(Bienvenido.this,Beacon.class));
-                    }
-                }
-
                 if(Objects.equals(aux,"Intercambiador La Laguna")){
                     numeroparadas.setText("2");
                     lugar.setText("Intercambiador La Laguna");
@@ -128,8 +124,14 @@ public class Bienvenido extends AppCompatActivity implements View.OnClickListene
                 tiempotitulo.setVisibility(View.VISIBLE);
                 tiempo.setVisibility(View.VISIBLE);
                 cancelar.setVisibility(View.VISIBLE);
-                eventos.setVisibility(View.VISIBLE);
 
+                //mDeviceList="FC:23:60:ED:0B:B7" ;
+
+                //if (mDeviceList.equals("FC:23:60:ED:0B:B7")) {
+                    //Log.i(String.valueOf(getBaseContext()), "Bluepami");
+                 //   startActivity(new Intent(Bienvenido.this,Beacon.class));
+                //}
+                Log.i(String.valueOf(getBaseContext()), "Bluecito" + mDeviceList);
                 break;
 
             case R.id.cancelar:
@@ -145,6 +147,10 @@ public class Bienvenido extends AppCompatActivity implements View.OnClickListene
                 eventos.setVisibility(View.GONE);
                 cancelar.setVisibility(View.GONE);
 
+                break;
+
+            case R.id.imagen:
+                startActivity(new Intent(Bienvenido.this,Setting.class));
                 break;
         }
     }
