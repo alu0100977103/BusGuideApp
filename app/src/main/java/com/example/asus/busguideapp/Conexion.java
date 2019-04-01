@@ -1,13 +1,11 @@
 package com.example.asus.busguideapp;
 
-import android.annotation.TargetApi;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -36,9 +34,7 @@ public class Conexion extends AppCompatActivity {
             Log.i(String.valueOf(getBaseContext()), "Bluetooth");
             if (mBluetoothdevice.ACTION_FOUND.equals(action)) {
                 device = intent.getParcelableExtra(mBluetoothdevice.EXTRA_DEVICE);
-                if(device.getName().equals("iBKS USB")) {
-                    mDeviceList.add(device.getName()+"\n" + device.getAddress());
-                }
+                mDeviceList.add(device.getName()+"\n" + device.getAddress());
                 Log.i(String.valueOf(getBaseContext()), "Blue" + device);
             }
         }

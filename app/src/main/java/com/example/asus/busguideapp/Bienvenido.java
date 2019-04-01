@@ -10,35 +10,24 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Adapter;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.Spinner;
+import android.widget.CheckedTextView;
 import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.Objects;
-import java.util.Set;
-
-import static java.sql.Types.NULL;
 
 public class Bienvenido extends AppCompatActivity implements View.OnClickListener {
 
     private static final Object Bienvenido = 1 ;
     private static final Object TAG = Bienvenido;
-    private static final int REQUEST_DISCOVER_BT = 1;
-    Spinner combolugares;
-    String aux;
-    TextView paradas,numeroparadas, lugar,detectar,tiempotitulo,tiempo,eventos;
+    TextView paradas,numeroparadas, lugar,detectar,tiempotitulo,tiempo;
     Button buscar,cancelar;
-    ImageView imagen;
+    CheckedTextView uno,dos,tres,cuatro;
     private String mDeviceList=null;
     BluetoothAdapter mBluetoothAdapter;
     BluetoothDevice mBluetoothdevice;
+    Bundle datos, salida;
+    String datos_obt, salida_obt;
+    String aux=null;
+
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         BluetoothDevice device;
@@ -48,10 +37,32 @@ public class Bienvenido extends AppCompatActivity implements View.OnClickListene
             Log.i(String.valueOf(getBaseContext()), "Bluetooth");
             if (mBluetoothdevice.ACTION_FOUND.equals(action)) {
                 device = intent.getParcelableExtra(mBluetoothdevice.EXTRA_DEVICE);
-                if(device.getName().equals("iBKS USB")) {
-                    mDeviceList=device.getAddress();
-                }
+                mDeviceList=device.getAddress();
                 Log.i(String.valueOf(getBaseContext()), "Blue" + device);
+                if (mDeviceList.equals("FC:23:60:ED:0B:B7")) {
+                    Intent cambiar = new Intent(Bienvenido.this,Beacon.class);
+                    mBluetoothAdapter.cancelDiscovery();
+                    cambiar.putExtra("Datos",mDeviceList);
+                    cambiar.putExtra("Destino",datos_obt);
+                    cambiar.putExtra("Salida",salida_obt);
+                    startActivity(cambiar);
+                }
+                if(mDeviceList.equals("E2:C3:B1:E0:2D:8B")){
+                    Intent cambiar = new Intent(Bienvenido.this,Beacon.class);
+                    mBluetoothAdapter.cancelDiscovery();
+                    cambiar.putExtra("Datos",mDeviceList);
+                    cambiar.putExtra("Destino",datos_obt);
+                    cambiar.putExtra("Salida",salida_obt);
+                    startActivity(cambiar);
+                }
+                if(mDeviceList.equals("E1:FF:56:62:7F:F3")){
+                    Intent cambiar = new Intent(Bienvenido.this,Beacon.class);
+                    mBluetoothAdapter.cancelDiscovery();
+                    cambiar.putExtra("Datos",mDeviceList);
+                    cambiar.putExtra("Destino",datos_obt);
+                    cambiar.putExtra("Salida",salida_obt);
+                    startActivity(cambiar);
+                }
             }
         }
     };
@@ -67,9 +78,14 @@ public class Bienvenido extends AppCompatActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.welcome);
 
+        datos = getIntent().getExtras();
+        salida=getIntent().getExtras();
+        datos_obt= datos.getString("Datos");
+        salida_obt=salida.getString("Salida");
+
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         buscar= findViewById(R.id.buscar);
-        combolugares= findViewById(R.id.spinnerlugares);
+
         paradas = findViewById(R.id.paradas);
         numeroparadas = findViewById(R.id.numeroparadas);
         lugar =findViewById(R.id.lugar);
@@ -77,80 +93,72 @@ public class Bienvenido extends AppCompatActivity implements View.OnClickListene
         detectar = findViewById(R.id.detectar);
         tiempotitulo=findViewById(R.id.tiempotitulo);
         tiempo=findViewById(R.id.tiempo);
-        eventos = findViewById(R.id.eventos);
-        imagen = findViewById(R.id.imagen);
+        uno=findViewById(R.id.Uno);
+        tres=findViewById(R.id.Tres);
+        dos=findViewById(R.id.Dos);
+        cuatro=findViewById(R.id.Cuatro);
+        cancelar.setOnClickListener(this);
 
-        ArrayAdapter<CharSequence> adapter= ArrayAdapter.createFromResource(this,R.array.combo_lugare,android.R.layout.simple_spinner_item);
-        combolugares.setAdapter(adapter);
-
-        combolugares.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                aux=parent.getItemAtPosition(position).toString();
-            }
-
-            public void onNothingSelected(AdapterView<?> parent){
-
-            }
-        });
-
+        lugar.setText(salida_obt + "-" + datos_obt);
+        if(mBluetoothAdapter.isDiscovering()){
+            mBluetoothAdapter.cancelDiscovery();
+        }
         mBluetoothAdapter.startDiscovery();
         registerReceiver(mReceiver, new IntentFilter(BluetoothDevice.ACTION_FOUND));
-
-        buscar.setOnClickListener(this);
-        cancelar.setOnClickListener(this);
-        imagen.setOnClickListener(this);
+        if((datos_obt.equals("Dulceria el Rayo") && salida_obt.equals("Calle La Laguna Nº1")) ||
+                (salida_obt.equals("Intercambiador La Laguna") && datos_obt.equals("Dulceria el Rayo"))){
+            if(salida_obt.equals("Calle La Laguna Nº1")){
+                numeroparadas.setText("2");
+                tiempo.setText("20 minutos");
+                uno.setText("No se baje en Calle Las Peras, continue hasta la siguiente parada");
+                uno.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        uno.setChecked(true);
+                    }
+                });
+                dos.setText("Bajese en la parada Destino: " + datos_obt);
+                dos.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        uno.setChecked(true);
+                    }
+                });
+                tres.setVisibility(View.GONE);
+                cuatro.setVisibility(View.GONE);
+            }else{
+                numeroparadas.setText("3");
+                tiempo.setText("30 minutos");
+                uno.setText("No se baje en Calle La Laguna Nº1, continue hasta la siguiente parada");
+                uno.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        uno.setChecked(true);
+                    }
+                });
+                dos.setText("No se baje en Calle Las Peras, continue hasta la siguiente parada");
+                dos.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dos.setChecked(true);
+                    }
+                });
+                tres.setText("Bajese en la parada Destino: " + datos_obt);
+                tres.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        tres.setChecked(true);
+                    }
+                });
+                cuatro.setVisibility(View.GONE);
+            }
+        }
     }
 
     public void onClick(View view){
         switch (view.getId()){
-            case R.id.buscar:
-                if(Objects.equals(aux,"Intercambiador La Laguna")){
-                    numeroparadas.setText("2");
-                    lugar.setText("Intercambiador La Laguna");
-                    tiempo.setText("10 minutos");
-                }else{
-                    numeroparadas.setText("3");
-                    lugar.setText("Intercambiador Santa Cruz");
-                    tiempo.setText("15 minutos");
-                }
-
-                paradas.setVisibility(View.VISIBLE);
-                numeroparadas.setVisibility(View.VISIBLE);
-                buscar.setVisibility(View.GONE);
-                combolugares.setVisibility(View.GONE);
-                lugar.setVisibility(View.VISIBLE);
-                detectar.setVisibility(View.VISIBLE);
-                tiempotitulo.setVisibility(View.VISIBLE);
-                tiempo.setVisibility(View.VISIBLE);
-                cancelar.setVisibility(View.VISIBLE);
-
-                //mDeviceList="FC:23:60:ED:0B:B7" ;
-
-                //if (mDeviceList.equals("FC:23:60:ED:0B:B7")) {
-                    //Log.i(String.valueOf(getBaseContext()), "Bluepami");
-                 //   startActivity(new Intent(Bienvenido.this,Beacon.class));
-                //}
-                Log.i(String.valueOf(getBaseContext()), "Bluecito" + mDeviceList);
-                break;
-
             case R.id.cancelar:
-
-                buscar.setVisibility(View.VISIBLE);
-                paradas.setVisibility(View.GONE);
-                numeroparadas.setVisibility(View.GONE);
-                combolugares.setVisibility(View.VISIBLE);
-                lugar.setVisibility(View.GONE);
-                detectar.setVisibility(View.GONE);
-                tiempotitulo.setVisibility(View.GONE);
-                tiempo.setVisibility(View.GONE);
-                eventos.setVisibility(View.GONE);
-                cancelar.setVisibility(View.GONE);
-
-                break;
-
-            case R.id.imagen:
-                startActivity(new Intent(Bienvenido.this,Setting.class));
+                startActivity(new Intent(Bienvenido.this,Inicio.class));
                 break;
         }
     }

@@ -5,13 +5,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.asus.busguideapp.Objetos.FirebaseReferences;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
@@ -22,11 +20,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.Objects;
 import java.util.regex.Pattern;
@@ -52,20 +46,7 @@ public class Signin extends AppCompatActivity implements GoogleApiClient.OnConne
         /*Aqui
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         myRef = database.getReference(FirebaseReferences.reference);
-        ValueEventListener valueEventListener= new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                int valor = dataSnapshot.getValue(Integer.class);
-                Log.i("DATOS",valor + "");
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.e("ERROR", databaseError.getMessage());
-            }
-        };
-        myRef.addListenerForSingleValueEvent(valueEventListener);
-        //hasta aqui*/
+        hasta aqui*/
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
 
@@ -100,7 +81,7 @@ public class Signin extends AppCompatActivity implements GoogleApiClient.OnConne
     }
 
     private void goMainScreen(){
-        Intent intent = new Intent(this,Bienvenido.class);
+        Intent intent = new Intent(this,Inicio.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent); 
     }
@@ -132,8 +113,10 @@ public class Signin extends AppCompatActivity implements GoogleApiClient.OnConne
                 }
             }
         }
+
+        //myRef.child(FirebaseReferences.reference).push().setValue(pass);
+
         registrarUsuario(email,pass);
-        //myRef.push().setValue(email);
     }
 
     private void registrarUsuario(String email,String pass){
@@ -147,10 +130,11 @@ public class Signin extends AppCompatActivity implements GoogleApiClient.OnConne
                 }
             }
         });
+
         if(aux==1) {
             FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, pass);
             Toast.makeText(Signin.this, "Usuario registrado", Toast.LENGTH_LONG).show();
-            startActivity(new Intent(Signin.this,Bienvenido.class));
+            startActivity(new Intent(Signin.this,Inicio.class));
         }
     }
 

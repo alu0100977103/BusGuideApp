@@ -31,7 +31,7 @@ public class Signup extends AppCompatActivity {
         mAuthListener= new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user=firebaseAuth.getCurrentUser();
+                FirebaseUser user=firebaseAuth.getCurrentUser(); //user.getEmail() es el correo con el que se conecta
             }
         };
     }
@@ -55,7 +55,7 @@ public class Signup extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
                     Toast.makeText(Signup.this, "Usuario entrando", Toast.LENGTH_LONG).show();
-                    startActivity(new Intent(Signup.this,Bienvenido.class));
+                    startActivity(new Intent(Signup.this,Inicio.class));
                 }else{
                     Toast.makeText(Signup.this, "Usuario o contraseña incorrecto", Toast.LENGTH_LONG).show();
                 }
