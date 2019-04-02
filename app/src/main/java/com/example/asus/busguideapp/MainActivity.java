@@ -8,11 +8,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_ENABLE_BT= 0;
-    Button regist, inici, buscar;
+    Button regist, inici;
+    ImageView Guagua;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
         regist=(Button) findViewById(R.id.regist);
         inici=(Button) findViewById(R.id.inici);
-        buscar=(Button) findViewById(R.id.buscar);
+        Guagua=(ImageView) findViewById(R.id.Guagua);
 
         regist.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -38,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        buscar.setOnClickListener(new View.OnClickListener() {
+        Guagua.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this,Conexion.class));

@@ -40,6 +40,18 @@ public class Beacon extends AppCompatActivity implements View.OnClickListener {
             lugar="Dulceria el Rayo";
             dates.setText("Dulceria el Rayo");
         }
+        if(datos_obt.equals("CC:F7:38:83:39:83")){
+            lugar="Intercambiador La Laguna";
+            dates.setText("Intercambiador La Laguna");
+        }
+        if(datos_obt.equals("E3:10:F4:C0:4F:0E")){
+            lugar="Autopista Norte";
+            dates.setText("Autopista Norte");
+        }
+        if(datos_obt.equals("C7:9B:B3:C7:B0:88")) {
+            lugar = "Intercambiador Santa Cruz";
+            dates.setText("Intercambiador Santa Cruz");
+        }
 
         parar = findViewById(R.id.parar);
         cambiar= findViewById(R.id.cambiar);

@@ -45,6 +45,18 @@ public class Inicio extends AppCompatActivity implements View.OnClickListener {
                 if(mDeviceList.equals("CC:F7:38:83:39:83")){
                     inicializar="Intercambiador La Laguna";
                 }
+                if(mDeviceList.equals("E2:C3:B1:E0:2D:8B")){
+                    inicializar="Calle Las peras Nº7";
+                }
+                if(mDeviceList.equals("C7:9B:B3:C7:B0:88")){
+                    inicializar="Intercambiador Santa Cruz";
+                }
+                if(mDeviceList.equals("E3:10:F4:C0:4F:0E")){
+                    inicializar="Autopista Norte";
+                }
+                if(mDeviceList.equals("E1:FF:56:62:7F:F3")){
+                    inicializar="Dulceria el Rayo";
+                }
             }
         }
     };

@@ -71,10 +71,10 @@ public class Setting extends AppCompatActivity {
         cambiar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String nombre=Nombre.getText().toString();
+                /*String nombre=Nombre.getText().toString();
                 String Contraseña = contraseña.getText().toString();
                 Usuario user = new Usuario(nombre,Integer.valueOf(Contraseña));
-                mDatabase.child("usuario").child(nombre).setValue(user); //Donde nombre ponemos correo
+                mDatabase.child("usuario").child(nombre).setValue(user); //Donde nombre ponemos correo*/
             }
         });
 

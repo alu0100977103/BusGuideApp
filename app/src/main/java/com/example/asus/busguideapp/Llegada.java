@@ -24,7 +24,7 @@ public class Llegada extends AppCompatActivity implements View.OnClickListener {
         lugar = getIntent().getExtras();
         String mision_obt= lugar.getString("Cumplida");
 
-        Mision.setText("Usted ya ha llegado ha su destino " + mision_obt + " Esperemos que tenga un buen día.");
+        Mision.setText("Usted ya ha llegado a su destino " + mision_obt + " Esperemos que tenga un buen día.");
     }
 
     @Override
