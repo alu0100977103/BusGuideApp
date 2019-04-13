@@ -15,15 +15,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Signin"/>
-        <activity android:name=".Conexion"/>
-        <activity android:name=".Signup"/>
-        <activity android:name=".Bienvenido"/>
-        <activity android:name=".Beacon"/>
-        <activity android:name=".Llegada"/>
-        <activity android:name=".Setting"/>
-        <activity android:name=".Inicio"/>
-        <activity android:name=".MainActivity">
+        <activity android:name=".Signin"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Conexion"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Signup"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Bienvenido"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Beacon"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Llegada"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Setting"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Inicio"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
