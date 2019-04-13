@@ -130,6 +130,7 @@ public class Inicio extends AppCompatActivity implements View.OnClickListener {
                                 cambiar.putExtra("Salida", aux_salida);
                                 cambiar.putExtra("Datos", aux);
                                 startActivity(cambiar);
+                                //finish();
                             }
                         }
                     }else {
@@ -144,6 +145,7 @@ public class Inicio extends AppCompatActivity implements View.OnClickListener {
                             cambiar.putExtra("Salida", inicializar);
                             cambiar.putExtra("Datos", aux);
                             startActivity(cambiar);
+                            //finish();
                         }
                     }
                 }

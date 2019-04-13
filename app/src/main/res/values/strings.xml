@@ -6,4 +6,6 @@
     <string name="buscar">buscar</string>
     <string name="j">Device found =</string>
     <string name="correcto"> Okey</string>
+    <string name="sesion"> Iniciar sesión</string>
+
 </resources>
